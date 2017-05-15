@@ -1,0 +1,49 @@
+body {
+    background-color: #999999;
+}
+
+*[role="form"] {
+    max-width: 530px;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.3em;
+}
+
+
+*[role="form"] h2 {
+    margin-left: 5em;
+    margin-bottom: 1em;
+}
+
+th[data-sort] {
+    cursor: pointer;
+}
+
+.table>tbody>tr>td{
+
+	vertical-align: middle;
+	border-top: 0px !important;
+}
+
+.custom-button{
+
+	display: table-cell;
+}
+
+.project_title{
+
+    height: 50px !important;
+    overflow: auto;
+}
+
+.project_description{
+
+    height: 150px !important;
+    overflow: auto;
+}
+
+.review{
+
+    border: 3px solid #e5e0e0 !important;
+    margin-top: 5px;
+}
