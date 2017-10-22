@@ -33,7 +33,6 @@
   <form id="search-form" class="form-inline">
 
     <input class="form-control" type="text" id="name" name="name" placeholder="Search by Name">
-    <input class="form-control" type="text" id="gender" name="gender" placeholder="Search by Gender">
     <input class="form-control" type="submit" id="search" name="submit" value="Search">
 
   </form>
@@ -62,9 +61,7 @@
 
     var name = $("#name").val();
 
-    var gender = $("#gender").val();
-
-    $.post("backend/pending_user_table.php",{name:name, gender:gender},function(result){
+    $.post("backend/pending_user_table.php",{name:name},function(result){
       /*alert(result);*/
       $("#user-table").html(result);
 
