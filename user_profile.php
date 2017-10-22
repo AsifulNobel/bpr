@@ -2,17 +2,17 @@
 <html>
 <head>
 	<title>user Profile</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
 
-<?php 
+<?php
 
 	session_start();
 
 	if (!isset($_SESSION['login_id'])) {
-        header ("Location: http://localhost/bpr/login.php");
+        header ("Location: login.php");
     }
  ?>
 
@@ -26,11 +26,11 @@
 
     include 'user_header.php';
   }
-  
+
 ?>
 
 <?php
-    
+
     include 'db/db_connect.php';
 ?>
 
@@ -39,7 +39,7 @@
 	<?php
 
 		$user_id = $_SESSION['login_id'];
-		
+
     $sql = "SELECT * FROM user WHERE user_id = '$user_id'";
     $result = mysqli_query($connection, $sql);
     $row = mysqli_fetch_assoc($result);
@@ -52,32 +52,32 @@
 
       <tr>
         <td><h4>Photo</h4></td>
-        <td><img style="height: 50px; width: 50px;" src="uploads/<?php echo $row['photo'];?>"></td>  
-      </tr>    
+        <td><img style="height: 50px; width: 50px;" src="uploads/<?php echo $row['photo'];?>"></td>
+      </tr>
 
       <tr>
         <td><h4>Name</h4></td>
-        <td><?php echo $row['name'];?></td>  
+        <td><?php echo $row['name'];?></td>
       </tr>
 
       <tr>
         <td><h4>Email</h4></td>
-        <td><?php echo $row['email'];?></td>  
+        <td><?php echo $row['email'];?></td>
       </tr>
 
       <tr>
         <td><h4>Date of Birth</h4></td>
-        <td><?php echo $row['date_of_birth'];?></td>  
+        <td><?php echo $row['date_of_birth'];?></td>
       </tr>
 
       <tr>
         <td><h4>Gender</h4></t>
-        <td><?php echo $row['gender'];?></td>  
+        <td><?php echo $row['gender'];?></td>
       </tr>
 
 
   </table>
-  
+
   <div class="col-sm-offset-4 col-sm-4">
 
     <button onclick="show_modal()" class="btn btn-primary">Change Password</button>
@@ -89,7 +89,7 @@
 
   <div class="modal fade" id="change_password_modal" role="dialog">
     <div class="modal-dialog">
-    
+
       <!-- Modal content-->
           <div class="modal-content">
 
@@ -124,20 +124,20 @@
 
             </div>
           </div>
-          
+
         </div>
       </div>
     <!-- Modal End -->
-	
+
 </div>
 
 </body>
 
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-  
+
 function show_modal(){
 
     $("#change_password_modal").modal("show");
@@ -183,6 +183,7 @@ function save_password(){
           else{
 
             alert("Something is wrong...");
+			console.log(result);
           }
       });
   }

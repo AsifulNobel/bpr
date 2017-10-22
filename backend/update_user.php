@@ -1,7 +1,7 @@
 <?php
 
 	include '../db/db_connect.php';
-	
+
 	$user_id = $_POST['user_id'];
 
 	$name = $_POST['name'];
@@ -13,29 +13,24 @@
 
 	if(!empty($photo)){
 
-		$targetdir = '../uploads/';   
+		$targetdir = '../uploads/';
 		$targetfile = $targetdir.$_FILES['photo']['name'];
 		$photo_upload_confirmation = move_uploaded_file($_FILES['photo']['tmp_name'], $targetfile);
 
-		$sql = "UPDATE user SET name = '$name', email = '$email', date_of_birth='$date_of_birth', gender = '$gender', role_id='$role_id', photo = '$photo' WHERE user_id='$user_id'";
+		$sql = "UPDATE user SET name = '$name', email = '$email', date_of_birth='$date_of_birth', gender = '$gender', photo = '$photo' WHERE user_id='$user_id'";
 
 	}
 
 	else{
-
-		$sql = "UPDATE user SET name = '$name', email = '$email', date_of_birth='$date_of_birth', gender = '$gender', role_id='$role_id' WHERE user_id='$user_id'";
-	}	
+		$sql = "UPDATE `user` SET `name` = '$name', `email` = '$email', `date_of_birth` = '$date_of_birth', `gender` = '$gender' WHERE `user`.`user_id` = '$user_id'";
+	}
 
 	$result = mysqli_query($connection, $sql);
 
-
 	if ($result) {
-
 	    echo "Okay";
-	  } 
-
-	else { 
-	    
+	  }
+	else {
 	    echo "Sorry";
 	}
 

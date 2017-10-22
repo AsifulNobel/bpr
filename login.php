@@ -2,13 +2,13 @@
 <html>
 <head>
 	<title>Login</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
 
 	<div class="container">
-		
+
 	<form id="login_form" class="form-horizontal" role="form">
 
 		<h2>Please Login</h2>
@@ -33,48 +33,47 @@
 
 		<div class="form-group">
 		    <div class="col-sm-6 col-sm-offset-3">
-		        <a href="http://localhost/bpr/register_user.php">Click here to create new account</a>
+		        <a href="register_user.php">Click here to create new account</a>
 		    </div>
 		</div>
 
 
-		
+
 	</form>
 
 	</div>
 
 </body>
 
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-	
-	var border_color = "#C2C2C2";	
+
+	var border_color = "#C2C2C2";
 
 	$("#login_form").submit(function(e){
 
-	    e.preventDefault();  
-	    proceed = true; 
-	    
+	    e.preventDefault();
+	    proceed = true;
+
 	    $($(this).find("input[data-required=true], textarea[data-required=true]")).each(function(){
-	            if(!$.trim($(this).val())){ 
-	                $(this).css('border-color','red');    
-	                proceed = false; 
+	            if(!$.trim($(this).val())){
+	                $(this).css('border-color','red');
+	                proceed = false;
 	            }
 
-	            var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/; 
+	            var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	            if($(this).attr("type")=="email" && !email_reg.test($.trim($(this).val()))){
-	                $(this).css('border-color','red');   
-	                proceed = false;              
+	                $(this).css('border-color','red');
+	                proceed = false;
 	            }
 
-	    }).on("input", function(){ 
+	    }).on("input", function(){
 	         $(this).css('border-color', border_color);
 	    });
 
 
-	    if(proceed){ 
+	    if(proceed){
 
 	        $.ajax({
 
@@ -87,16 +86,16 @@
 	        		success: function(data){
 
 	        			if(data=="1"){
-	        				window.location.replace("http://localhost/bpr/admin_panel.php");
+	        				window.location.replace("admin_panel.php");
 	        			}
 	        			else if(data=="0"){
-	        				window.location.replace("http://localhost/bpr/index.php");
+	        				window.location.replace("index.php");
 	        			}
 	        			else{
 	        				alert("Invalid Email or Password");
 	        			}
-	        		}	        
-	        		
+	        		}
+
 	        });
 	    }
 

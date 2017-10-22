@@ -2,18 +2,18 @@
 <html>
 <head>
 	<title>User Edit</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
 
-<?php 
+<?php
 	session_start();
 
 	$user_id = $_GET['user_id'];
 
 	if (!isset($_SESSION['login_id'])) {
-        header ("Location: http://localhost/bpr/login.php");
+        header ("Location: login.php");
     }
  ?>
 
@@ -21,9 +21,9 @@
 
 	include 'header.php';
 ?>
- 
+
 <?php
-    
+
     include 'db/db_connect.php';
 
     $sql = "SELECT * FROM user WHERE user_id = '$user_id'";
@@ -126,22 +126,21 @@
 		</div>
 
 	</form>
-	
+
 </div>
 </body>
 
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 
 	$("#edit-user-form").submit(function(e){
-	    e.preventDefault();  
-	    proceed = true; 
-	    
+	    e.preventDefault();
+	    proceed = true;
 
-	    if(proceed){ 
+
+	    if(proceed){
 
 	        $.ajax({
 
@@ -152,16 +151,16 @@
 	        		cache: false,
 	        		processData:false,
 	        		success: function(data){
-
 	        			if (data=="Okay") {
 	        				alert("user Information Updated");
-	        				window.location.replace("http://localhost/bpr/admin_panel.php");
+	        				window.location.replace("admin_panel.php");
 	        			}
 	        			else{
 	        				alert("Sorry");
 	        			}
-	        		}	        
-	        		
+						console.log(data);
+	        		}
+
 	        });
 	    }
 	});

@@ -2,19 +2,19 @@
 <html>
 <head>
 	<title>BSSE Project Reposiritory</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
 
-<?php 
+<?php
 
 	session_start();
 
 	if (!isset($_SESSION['login_id'])) {
-        header ("Location: http://localhost/bpr/login.php");
+        header ("Location: login.php");
     }
- ?> 
+ ?>
 
 <?php
 
@@ -22,7 +22,7 @@
 ?>
 
 <?php
-    
+
     include 'db/db_connect.php';
 ?>
 
@@ -38,11 +38,11 @@
 
 </body>
 
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-  
+
 
 </script>
 

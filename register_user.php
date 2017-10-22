@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Register</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
 
@@ -46,7 +46,7 @@
 	                        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" data-required="true" data-required="true">
 	                    </div>
 	                </div>
-	                
+
 	                <div class="form-group">
 	                    <label class="control-label col-sm-3">Gender</label>
 	                    <div class="col-sm-6">
@@ -84,65 +84,65 @@
 	                    </div>
 	                </div>
 
-	            </form> 
+	            </form>
 
 	            </div>
 
-	        </div> 
+	        </div>
 
 </body>
 
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 
-	var allowed_file_size = "1048576"; 
+	var allowed_file_size = "1048576";
 	var allowed_files = ['image/png', 'image/gif', 'image/jpeg', 'image/pjpeg'];
 	var border_color = "#C2C2C2";
 
 	$("#registration-form").submit(function(e){
-	    e.preventDefault();  
-	    proceed = true; 
-	    
+	    e.preventDefault();
+	    proceed = true;
+
 	    $($(this).find("input[data-required=true], textarea[data-required=true]")).each(function(){
-	            if(!$.trim($(this).val())){ 
-	                $(this).css('border-color','red');    
-	                proceed = false; 
+	            if(!$.trim($(this).val())){
+	                $(this).css('border-color','red');
+	                proceed = false;
 	            }
 
-	            var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/; 
+	            var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	            if($(this).attr("type")=="email" && !email_reg.test($.trim($(this).val()))){
-	                $(this).css('border-color','red');   
-	                proceed = false;              
+	                $(this).css('border-color','red');
+	                proceed = false;
 	            }
 
-	    }).on("input", function(){ 
+	    }).on("input", function(){
 	         $(this).css('border-color', border_color);
 	    });
-	    
+
 
 	    if(window.File && window.FileReader && window.FileList && window.Blob){
 	        var total_files_size = 0;
 	        $(this.elements['photo'].files).each(function(i, ifile){
-	            if(ifile.value !== ""){ 
-	                if(allowed_files.indexOf(ifile.type) === -1){ 
+	            if(ifile.value !== ""){
+	                if(allowed_files.indexOf(ifile.type) === -1){
 	                    alert( ifile.name + " is unsupported file type!");
 	                    proceed = false;
 	                }
-	             total_files_size = total_files_size + ifile.size; 
+	             total_files_size = total_files_size + ifile.size;
 	            }
 	            else{
 	            	alert("Please select an image file");
 	            }
-	        }); 
-	       if(total_files_size > allowed_file_size){ 
+	        });
+	       if(total_files_size > allowed_file_size){
 	            alert( "Make sure total file size is less than 1 MB!");
 	            proceed = false;
 	        }
 	    }
-	    
-	    
+
+
 	    if(proceed){
 
 	        $.ajax({
@@ -157,16 +157,16 @@
 
 	        			if(data=="Okay"){
 	        				alert("User Added!");
-	        				window.location.replace("http://localhost/bpr/login.php");
+	        				window.location.replace("login.php");
 	        			}
 
 	        			else{
-	        				
+
 	        				alert("Sorry. Try With another Email...!");
 	        			}
 
-	        		}	        
-	        		
+	        		}
+
 	        });
 	    }
 	});

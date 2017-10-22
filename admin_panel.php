@@ -2,22 +2,22 @@
 <html>
 <head>
 	<title>User Information</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 </head>
 <body>
 
-<?php 
+<?php
 
 	session_start();
 
 	if (!isset($_SESSION['login_id'])) {
-        header ("Location: http://localhost/bpr/login.php");
+        header ("Location: login.php");
     }
  ?>
- 
+
 <?php
-    
+
     include 'db/db_connect.php';
 ?>
 
@@ -31,25 +31,24 @@
 	<h2>User Information</h2>
 
 	<form id="search-form" class="form-inline">
-		
+
 		<input class="form-control" type="text" id="name" name="name" placeholder="Search by Name">
-		<input class="form-control" type="text" id="gender" name="gender" placeholder="Search by Gender">
 		<input class="form-control" type="submit" id="search" name="submit" value="Search">
 
 	</form>
 
 
 	<div id="user-table">
-		
+
 	</div>
-	
+
 </div>
 
 </body>
 
-<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/stupidtable.js"></script>
+<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/stupidtable.js"></script>
 
 <script type="text/javascript">
 
@@ -62,9 +61,7 @@
 
 		var name = $("#name").val();
 
-		var gender = $("#gender").val();
-
-		$.post("backend/user_table.php",{name:name, gender:gender},function(result){
+		$.post("backend/user_table.php",{name:name},function(result){
 			/*alert(result);*/
 			$("#user-table").html(result);
 
@@ -80,7 +77,7 @@
 
 	function edit_user(user_id){
 
-		window.location.replace("http://localhost/bpr/user_edit.php?user_id="+user_id);
+		window.location.replace("user_edit.php?user_id="+user_id);
 	}
 
 	function delete_user(user_id){
