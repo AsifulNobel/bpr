@@ -5,6 +5,7 @@
 	include '../db/db_connect.php';
 
 	$name = $_POST['name'];
+	$gender = $_POST['gender'];
 
 	$list = '<table id="myTable" class="table">
 		<thead>
@@ -19,19 +20,19 @@
 		if($_SESSION['login_role_id']==1){
 			$list .= '<th>Actions</th>';
 		}
-
+		
 		$list .= '</tr>
 					</thead>
 
 					<tbody>';
 
 
-	$sql = "SELECT * FROM user WHERE name LIKE '%$name%' AND user_status=1";
+	$sql = "SELECT * FROM user WHERE name LIKE '%$name%' AND gender LIKE '$gender%' AND user_status=1";
 
 
 	$result = mysqli_query($connection, $sql);
 	while ($row = mysqli_fetch_assoc($result)) {
-
+		    
 		$list.= '<tr>
 					<td><img src="uploads/'.$row['photo'].'" style="height: 50px; width: 50px"></td>
 					<td>'.$row['name'].'</td>
@@ -51,17 +52,17 @@
 
 		    			$list .= '<td>
 
-		    			<button class="btn btn-primary btn-margin" onclick="edit_user('.$row['user_id'].')">Edit</button>';
-
+		    			<button class="btn btn-primary" onclick="edit_user('.$row['user_id'].')">Edit</button>';
+		    			
 		    			if($row['role_id']!=1){
 
-		    				$list .= '<button class="btn btn-danger btn-margin" onclick="delete_user('.$row['user_id'].')">Delete</button>';
+		    				$list .= '<button class="btn btn-danger" onclick="delete_user('.$row['user_id'].')">Delete</button>';
 		    			}
 
 		    			$list .= '</td>';
 		    		}
 
-		    		$list .= '</tr>';
+		    		$list .= '</tr>';                                   
 	}
 
 	$list .= '</tbody>

@@ -7,16 +7,14 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<div class="jumbotron">
-      		<div class="container">
-		        <h1>Welcome to ProLab!</h1>
-		        <p>A place for students of ECE department of North South University to store and share their knowledge.</p>
-		        <div>
-					<a class="btn btn-primary" href="register_user.php" role="button">Signup</a>
-					<a class="btn btn-info" href="login.php" role="button">Login</a>
-				</div>
-	      	</div>
-    	</div>
+		<?php require "user_header.php" ?>
+
+		<div class="container">
+			<div class="jumbotron text-center">
+				<h2>Welcome to ECE Project Repository</h2>
+			</div>
+
+		</div>
 
 	</body>
 

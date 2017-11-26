@@ -1,97 +1,75 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>User Information</title>
-	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/style.css">
-</head>
-<body>
+	<head>
+		<title>User Information</title>
+		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/style.css">
+		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
+	</head>
+	<body>
+		<?php require "admin_header.php"; ?>
 
-<?php
+		<div class="container">
+			<h2>User Information</h2>
+			<form id="search-form" class="form-inline">
+				<div class="">
+					<input class="form-control" type="text" id="query" name="query" placeholder="Search User">
+					<input class="form-control" type="submit" id="search" name="submit" value="Search">
+				</div>
+			</form>
 
-	session_start();
+			<div>
+				<table class="table table-striped table-hover table-bordered">
+					<thead class="thead-dark">
+					    <tr>
+							<th>Name</th>
+							<th>Email Address</th>
+							<th>Profile Link</th>
+							<th>Action</th>
+					    </tr>
+					</thead>
+					<tbody id="user-table">
 
-	if (!isset($_SESSION['login_id'])) {
-        header ("Location: login.php");
-    }
- ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-<?php
+	</body>
 
-    include 'db/db_connect.php';
-?>
+	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
-<?php
-
-	include 'header.php';
-?>
-
-<div class="container">
-
-	<h2>User Information</h2>
-
-	<form id="search-form" class="form-inline">
-
-		<input class="form-control" type="text" id="name" name="name" placeholder="Search by Name">
-		<input class="form-control" type="submit" id="search" name="submit" value="Search">
-
-	</form>
-
-
-	<div id="user-table">
-
-	</div>
-
-</div>
-
-</body>
-
-<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="static/js/stupidtable.js"></script>
-
-<script type="text/javascript">
-
-	$("#search-form").submit(function(e){
-		e.preventDefault();
-		show_user_list();
-	});
-
-	function show_user_list(){
-
-		var name = $("#name").val();
-
-		$.post("backend/user_table.php",{name:name},function(result){
-			/*alert(result);*/
-			$("#user-table").html(result);
-
-			$("#myTable").stupidtable();
+	<script type="text/javascript">
+		$("#search-form").submit(function(e){
+			e.preventDefault();
+			show_user_list();
 		});
-	}
 
-	$(document).ready(function(){
+		function show_user_list(){
+			var query = $("#query").val();
 
-		show_user_list();
+			$.post("backend/all_users.php",{query:query},function(result){
+			  $("#user-table").html(result);
 
-	});
+			  delete_listener();
+			});
+		}
 
-	function edit_user(user_id){
+		function delete_listener() {
+			$(".btn-danger").click(function(event) {
+				event.preventDefault();
+				var splitUrl = $(this)[0].href.split("/");
+				var id = splitUrl[splitUrl.length-1];
 
-		window.location.replace("user_edit.php?user_id="+user_id);
-	}
+				$.post("backend/delete_user.php", {user_id:id})
+				location.reload(true);
+			});
+		}
 
-	function delete_user(user_id){
-
-		$.post("backend/delete_user.php",{user_id:user_id}, function(result){
-
-			if (result=="Okay") {
-
-				show_user_list();
-				alert("user deleted");
-			}
+		$(document).ready(function(){
+			show_user_list();
 		});
-	}
 
-</script>
-
+	</script>
 </html>

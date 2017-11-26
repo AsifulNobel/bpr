@@ -1,5 +1,5 @@
-<?php 
-	
+<?php
+
 	session_start();
 
 	include '../db/db_connect.php';
@@ -8,5 +8,4 @@
 		session_destroy();
 		echo "Okay";
 	}
-
  ?>

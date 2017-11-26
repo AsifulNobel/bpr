@@ -1,194 +1,220 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>user Profile</title>
-	<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/style.css">
-</head>
-<body>
-
-<?php
-
-	session_start();
-
-	if (!isset($_SESSION['login_id'])) {
-        header ("Location: login.php");
-    }
- ?>
-
-<?php
-
-  if($_SESSION['login_role_id']==1){
-
-    include 'header.php';
-  }
-  else{
-
-    include 'user_header.php';
-  }
-
-?>
-
-<?php
-
-    include 'db/db_connect.php';
-?>
-
-<div class="container">
-
-	<?php
-
-		$user_id = $_SESSION['login_id'];
-
-    $sql = "SELECT * FROM user WHERE user_id = '$user_id'";
-    $result = mysqli_query($connection, $sql);
-    $row = mysqli_fetch_assoc($result);
-
-	?>
-
-  <div class="col-sm-offset-3 col-sm-6">
-
-    <table class="table">
-
-      <tr>
-        <td><h4>Photo</h4></td>
-        <td><img style="height: 50px; width: 50px;" src="uploads/<?php echo $row['photo'];?>"></td>
-      </tr>
-
-      <tr>
-        <td><h4>Name</h4></td>
-        <td><?php echo $row['name'];?></td>
-      </tr>
-
-      <tr>
-        <td><h4>Email</h4></td>
-        <td><?php echo $row['email'];?></td>
-      </tr>
-
-      <tr>
-        <td><h4>Date of Birth</h4></td>
-        <td><?php echo $row['date_of_birth'];?></td>
-      </tr>
-
-      <tr>
-        <td><h4>Gender</h4></t>
-        <td><?php echo $row['gender'];?></td>
-      </tr>
-
-
-  </table>
-
-  <div class="col-sm-offset-4 col-sm-4">
-
-    <button onclick="show_modal()" class="btn btn-primary">Change Password</button>
-
-  </div>
-
-  </div>
-
-
-  <div class="modal fade" id="change_password_modal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-          <div class="modal-content">
-
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Change Password</h4>
-            </div>
-
-            <div class="modal-body">
-
-              <div class="form-group">
-                <label for="old_password" class="control-label">Old Password</label>
-                <input id="old_password" type="password" name="old_password" class="form-control" value="">
-              </div>
-
-              <div>
-                <label for="new_password" class="control-label">New Password</label>
-                <input id="new_password" type="password" name="new_password" class="form-control">
-              </div>
-
-              <div>
-                <label for="confirm_password" class="control-label">Confirm Password</label>
-                <input id="confirm_password" type="password" name="confirm_password" class="form-control">
-              </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-              <button type="button" onclick="save_password()" class="btn btn-success" data-dismiss="modal">Save</button>
-              <button type="button" onclick="hide_modal()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    <!-- Modal End -->
-
-</div>
-
-</body>
-
-<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-
-function show_modal(){
-
-    $("#change_password_modal").modal("show");
-
-}
-
-function hide_modal(){
-
-  $("#change_password_modal").modal("hide");
-}
-
-function save_password(){
-
-  var old_password = $("#old_password").val();
-  var new_password = $("#new_password").val();
-  var confirm_password = $("#confirm_password").val();
-
-  var proceed = true;
-
-  if (old_password.length==0 || new_password.length==0 || confirm_password.length==0) {
-
-    alert("Password can't be empty!");
-
-    proceed = false;
-  }
-
-  if(new_password != confirm_password){
-
-    alert("New Password and Confirm Password didn't match...");
-
-    proceed = false;
-  }
-
-  if (proceed) {
-
-      $.post("backend/change_password.php",{old_password:old_password, confirm_password:confirm_password}, function(result){
-
-          if (result == "Okay") {
-
-              alert("Password changed successfully");
-          }
-
-          else{
-
-            alert("Something is wrong...");
-			console.log(result);
-          }
-      });
-  }
-}
-
-</script>
+	<head>
+		<title>My Profile</title>
+		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/style.css">
+		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-default" id="navBorderFix">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand">ProLab</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+		        <ul class="nav navbar-nav">
+		            <li><a href="#">Home</a></li>
+					<li class="active"><a href="#">Profile</a></li>
+					<li><a href="#">Explore</a></li>
+					<li><a href="#">Add Repository</a></li>
+		        </ul>
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+		        <li><a onclick="" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+
+		<div class="container-fluid">
+		  <div class="col-md-3" style="height:588px;">
+			  <div class="panel panel-primary">
+				<div class="panel-heading">
+				  <h2 class="panel-title">User Info</h2>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+    			      <tr>
+    			        <td colspan="2" style="padding-left:30px;"><img style="height: 200px; width: 200px;" src="uploads/default_user_male.jpg"></td>
+    			      </tr>
+
+    			      <tr>
+    			        <td><strong>Name</strong></td>
+    			        <td>Asiful Haque Latif</td>
+    			      </tr>
+
+    			      <tr>
+    			        <td><strong>Email</strong></td>
+    			        <td>asiful.latif@northsouth.edu</td>
+    			      </tr>
+
+    				  <tr>
+    			        <td><strong>NSU ID</strong></td>
+    			        <td>1411125042</td>
+    			      </tr>
+    			  </table>
+				</div>
+			  </div>
+		  </div>
+
+		  <div class="col-md-8" style="">
+			  <ul class="nav nav-tabs">
+				  <li class="active"><a href="#repos" data-toggle="tab">Repositories <span class="badge">5</span></a></li>
+				  <li><a href="#followers" data-toggle="tab">Followers <span class="badge">3</span></a></li>
+				  <li><a href="#following" data-toggle="tab">Following <span class="badge">2</span></a></li>
+			  </ul>
+			  <div id="myTabContent" class="tab-content">
+				  <div class="tab-pane fade active in" id="repos">
+				    <div class="repo-detail" style="margin-top:20px;">
+						<div class="panel panel-primary">
+						  <div class="panel-heading">
+						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
+						  </div>
+						  <div class="panel-body">
+						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						  </div>
+							<div class="panel-body">
+								<ul class="nav nav-pills">
+								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
+								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+						  <div class="panel-heading">
+						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
+						  </div>
+						  <div class="panel-body">
+						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						  </div>
+							<div class="panel-body">
+								<ul class="nav nav-pills">
+								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
+								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+						  <div class="panel-heading">
+						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
+						  </div>
+						  <div class="panel-body">
+						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						  </div>
+							<div class="panel-body">
+								<ul class="nav nav-pills">
+								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
+								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+						  <div class="panel-heading">
+						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
+						  </div>
+						  <div class="panel-body">
+						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						  </div>
+							<div class="panel-body">
+								<ul class="nav nav-pills">
+								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
+								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+						  <div class="panel-heading">
+						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
+						  </div>
+						  <div class="panel-body">
+						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						  </div>
+							<div class="panel-body">
+								<ul class="nav nav-pills">
+								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
+								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+								</ul>
+							</div>
+						</div>
+				    </div>
+				  </div>
+				  <div class="tab-pane fade" id="following">
+					  <table class="table table-striped table-hover table-bordered">
+  						<tbody>
+  							<tr>
+								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
+								<th>Rifatt Bin Assad</th>
+								<th>rifatt.assad@northsouth.edu</th>
+								<th>1331024042</th>
+								<th>
+									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
+								</th>
+								<th><button type="button" name="button" class="btn btn-warning" style="padding: 1px 5px;">Unfollow</button></th>
+  							</tr>
+							<tr>
+								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
+								<th>Sample Name</th>
+								<th>sample.name@northsouth.edu</th>
+								<th>10-digit ID</th>
+								<th>
+									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
+								</th>
+								<th><button type="button" name="button" class="btn btn-warning" style="padding: 1px 5px;">Unfollow</button></th>
+							</tr>
+  						</tbody>
+  					</table>
+				  </div>
+				  <div class="tab-pane fade" id="followers">
+				    <table class="table table-striped table-hover table-bordered">
+				    	<tbody>
+							<tr>
+								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
+								<th>Sample Name</th>
+								<th>sample.name@northsouth.edu</th>
+								<th>10-digit ID</th>
+								<th>
+									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
+								</th>
+							</tr>
+							<tr>
+								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
+								<th>Sample Name</th>
+								<th>sample.name@northsouth.edu</th>
+								<th>10-digit ID</th>
+								<th>
+									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
+								</th>
+							</tr>
+							<tr>
+								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
+								<th>Sample Name</th>
+								<th>sample.name@northsouth.edu</th>
+								<th>10-digit ID</th>
+								<th>
+									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
+								</th>
+							</tr>
+				    	</tbody>
+				    </table>
+				  </div>
+			  </div>
+		  </div>
+		</div>
+
+	</body>
+
+	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
 </html>

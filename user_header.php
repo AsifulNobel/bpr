@@ -1,3 +1,12 @@
+<?php
+
+	session_start();
+
+	if (!isset($_SESSION['login_id'])) {
+        header ("Location: login.php");
+    }
+ ?>
+
 <nav class="navbar navbar-default" id="navBorderFix">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -6,15 +15,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand">BSSE Project Repository</a>
+      <a class="navbar-brand">ProLab</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            <li><a href="index.php">Home</a></li>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="user_profile.php">Profile</a></li>
+            <li><a href="user_explore.php">Explore</a></li>
+            <li><a href="repo_add.php">Add Repository</a></li>
         </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="user_profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-        <li><a onclick="return logout();" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+        <li><a onclick="logout()" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>

@@ -19,6 +19,7 @@
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
 		      <ul class="nav navbar-nav">
+
 		        <li><a href="#">Home</a></li>
 				<li class="active"><a href="#">Pending</a></li>
 				<li><a href="#">Browse Repositories</a></li>
@@ -38,21 +39,21 @@
           <div class="container">
               <form id="search-form" class="form-inline">
 
-                <div class="">
-  					<input class="form-control" type="text" id="name" name="name" placeholder="Search User">
-  					<input class="form-control" type="submit" id="search" name="submit" value="Search">
+                  <div class="">
+    					<input class="form-control" type="text" id="name" name="name" placeholder="Search User" value="john">
+    					<input class="form-control" type="submit" id="search" name="submit" value="Search">
+    				</div>
+                  <div class="btn-group" data-toggle="buttons" style="padding: 10px 1px;">
+  				  <label class="btn btn-primary active" style="padding:2px 5px;">
+  				    <input type="radio" name="options" id="option1" checked=""> By Name
+  				  </label>
+  				  <label class="btn btn-primary" style="padding:2px 5px;">
+  				    <input type="radio" name="options" id="option2"> By ID
+  				  </label>
+  				  <label class="btn btn-primary" style="padding:2px 5px;">
+  				    <input type="radio" name="options" id="option3"> By Email
+  				  </label>
   				</div>
-                <div class="btn-group" data-toggle="buttons" style="padding: 10px 1px;">
-				  <label class="btn btn-primary active" style="padding:2px 5px;">
-				    <input type="radio" name="options" id="option1" checked=""> By Name
-				  </label>
-				  <label class="btn btn-primary" style="padding:2px 5px;">
-				    <input type="radio" name="options" id="option2"> By ID
-				  </label>
-				  <label class="btn btn-primary" style="padding:2px 5px;">
-				    <input type="radio" name="options" id="option3"> By Email
-				  </label>
-				</div>
               </form>
           </div>
 
@@ -79,32 +80,11 @@
                               <button type="button" name="button" class="btn btn-danger" style="padding: 1px 5px;"><i class="fa fa-times" aria-hidden="true"></i></button>
                           </th>
                       </tr>
-                      <tr>
-                          <th>2</th>
-                          <th>Jane Doe</th>
-                          <th>jane.doe@northsouth.edu</th>
-                          <th>1231192012</th>
-                          <th colspan="2">
-                              <button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;"><i class="fa fa-check" aria-hidden="true"></i></button>
-                              <button type="button" name="button" class="btn btn-danger" style="padding: 1px 5px;"><i class="fa fa-times" aria-hidden="true"></i></button>
-                          </th>
-                      </tr>
-                      <tr>
-                          <th>3</th>
-                          <th>Bob Brown</th>
-                          <th>bob.brown@northsouth.edu</th>
-                          <th>1518112042</th>
-                          <th colspan="2">
-                              <button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;"><i class="fa fa-check" aria-hidden="true"></i></button>
-                              <button type="button" name="button" class="btn btn-danger" style="padding: 1px 5px;"><i class="fa fa-times" aria-hidden="true"></i></button>
-                          </th>
-                      </tr>
                   </tbody>
               </table>
           </div>
 
         </div>
-
     </body>
 
     <script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>

@@ -5,6 +5,7 @@
 	include '../db/db_connect.php';
 
 	$name = $_POST['name'];
+	$gender = $_POST['gender'];
 
 	$list = '<table id="myTable" class="table">
 		<thead>
@@ -26,7 +27,7 @@
 					<tbody>';
 
 
-	$sql = "SELECT * FROM user WHERE name LIKE '%$name%' AND user_status=0";
+	$sql = "SELECT * FROM user WHERE name LIKE '%$name%' AND gender LIKE '$gender%' AND user_status=0";
 
 
 	$result = mysqli_query($connection, $sql);
@@ -66,9 +67,5 @@
 
 	$list .= '</tbody>
 				</table>';
-
 	echo $list;
-
-
-
 ?>
