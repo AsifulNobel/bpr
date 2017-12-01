@@ -7,30 +7,7 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default" id="navBorderFix">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand">ProLab</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		        <ul class="nav navbar-nav">
-		            <li><a href="#">Home</a></li>
-					<li><a href="#">Profile</a></li>
-					<li class="active"><a href="#">Explore</a></li>
-					<li><a href="#">Add Repository</a></li>
-		        </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-		        <li><a onclick="" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		      </ul>
-		    </div>
-		  </div>
-		</nav>
+		<?php require "user_redirect.php"; ?>
 
 		<div class="container">
 			<h2>Repository Information</h2>
@@ -41,45 +18,37 @@
 				</div>
 				<div class="btn-group" data-toggle="buttons" style="padding: 10px 1px;">
 				  <label class="btn btn-primary active" style="padding:2px 5px;">
-				    <input type="radio" name="options" id="option1" checked=""> By Name
+				    <input type="radio" name="options" id="option1" value="repo" checked=""> By Repo Name
 				  </label>
 				  <label class="btn btn-primary" style="padding:2px 5px;">
-				    <input type="radio" name="options" id="option2"> By Description
-				  </label>
-				  <label class="btn btn-primary" style="padding:2px 5px;">
-				    <input type="radio" name="options" id="option3"> By User
+				    <input type="radio" name="options" id="option2" value="user"> By User
 				  </label>
 				</div>
 			</form>
 
 			<div id="user-table">
-				<table class="table table-striped table-hover table-bordered">
-					<thead class="thead-dark">
-					    <tr>
-					    	<th>#</th>
-							<th>Name</th>
-							<th>Created By</th>
-							<th>Description</th>
-							<th>Repository Link</th>
-					    </tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th>1</th>
-							<th>Sample Repository</th>
-							<th>Asif</th>
-							<th>lorem ipsum...</th>
-							<th>
-								<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit</button>
-							</th>
-						</tr>
-					</tbody>
-				</table>
+
 			</div>
 		</div>
 
 	</body>
 
-<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#search-form').submit(function(e) {
+			e.preventDefault();
+
+			var query = $('#name').val();
+			var option = $('input[name=options]:checked', '#search-form').val();
+
+			if (query.length > 0) {
+				$.post("backend/explore.php", {query: query, option: option},
+					function(result) {
+						console.log(result);
+						$("#user-table").html(result);
+					})
+			}
+		})
+	</script>
 </html>
