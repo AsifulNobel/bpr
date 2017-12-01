@@ -7,30 +7,9 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default" id="navBorderFix">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand">ProLab</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		        <ul class="nav navbar-nav">
-		            <li><a href="#">Home</a></li>
-					<li><a href="#">Profile</a></li>
-					<li><a href="#">Explore</a></li>
-					<li><a href="#">Add Repository</a></li>
-		        </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		        <li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-		        <li><a onclick="" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		      </ul>
-		    </div>
-		  </div>
-		</nav>
+		<?php require "user_redirect.php"; ?>
+		<?php require "backend/profile_info.php" ?>
+
 		<div class="container">
 
 			<h2 class="text-center">Edit User Info</h2>
@@ -43,14 +22,33 @@
 					<div class="form-group">
 						<label for="name" class="control-label col-sm-2">Name</label>
 						<div class="col-sm-4">
-							<input class="form-control" type="text" name="name" id="name" value="Asiful Haque Latif">
+							<input class="form-control" type="text" name="name" id="name" value="<?php echo $list['name']; ?>">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="email" class="control-label col-sm-2">Email</label>
 						<div class="col-sm-4">
-							<input class="form-control" type="email" name="email" id="email" value="asiful.latif@northsouth.edu">
+							<input class="form-control" type="email" name="email" id="email" value="<?php echo $list['email']; ?>">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="sex" class="control-label col-sm-2">Gender</label>
+						<div class="btn-group col-sm-4" data-toggle="buttons">
+						  <label class="btn btn-primary active">
+						    <input type="radio" name="gender" id="option1" value="Male" <?php if($list['gender']=="Male"){echo "checked";}?>> Male
+						  </label>
+						  <label class="btn btn-primary">
+						    <input type="radio" name="gender" id="option2" value="Female" <?php if($list['gender']=="Female"){echo "checked";}?>> Female
+						  </label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="date_of_birth" class="control-label col-sm-2">Date of Birth</label>
+						<div class="col-sm-4">
+							<input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="<?php echo $list['date_of_birth']; ?>">
 						</div>
 					</div>
 
@@ -78,14 +76,12 @@
 
 		      <!-- Modal content-->
 		          <div class="modal-content">
-
 		            <div class="modal-header">
 		              <button type="button" class="close" data-dismiss="modal">&times;</button>
 		              <h4 class="modal-title">Change Password</h4>
 		            </div>
 
 		            <div class="modal-body">
-
 		              <div class="form-group">
 		                <label for="old_password" class="control-label">Old Password</label>
 		                <input id="old_password" type="password" name="old_password" class="form-control" value="">
@@ -105,7 +101,7 @@
 
 		            <div class="modal-footer">
 
-		              <button type="button" onclick="save_password()" class="btn btn-success" data-dismiss="modal">Save</button>
+		              <button type="button" onclick="save_password()" class="btn btn-success">Save</button>
 		              <button type="button" onclick="hide_modal()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 
 		            </div>
@@ -120,4 +116,56 @@
 	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
 
+	<script type="text/javascript">
+		$("#edit-user-form").submit(function(e){
+			e.preventDefault();
+			proceed = true;
+
+			if(proceed){
+				$.ajax({
+						url: "backend/update_user.php",
+						type: "POST",
+						data:  new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						success: function(data){
+							if (data=="Okay") {
+								alert("Information Updated");
+								location.reload(true);
+							}
+							else{
+								alert("Sorry");
+							}
+						}
+
+				});
+			}
+		});
+
+		function save_password() {
+			var new_pass = $("#new_password").val();
+			var confirm_pass = $("#confirm_password").val();
+			var old_pass = $("#old_password").val();
+
+			if (new_pass == confirm_pass && new_pass.length > 0) {
+				$.post("backend/change_password.php",
+				{old_password: old_pass, confirm_password: confirm_pass},
+				function(result) {
+					if (result=="Okay") {
+						$("#change_password_modal").modal('toggle');
+					}
+					else if (result == "Non-match") {
+						alert("Incorrect Password!");
+					}
+					else {
+						alert("Database Error!");
+					}
+				})
+			}
+			else {
+				alert("New Passwords do not match!");
+			}
+		}
+	</script>
 </html>

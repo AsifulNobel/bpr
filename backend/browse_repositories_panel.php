@@ -23,10 +23,10 @@
 		<tbody>';
 
 	if (isset($_SESSION['login_role_id']) && ($_SESSION['login_role_id'] == 1)) {
-		$sql = "SELECT * FROM project p INNER JOIN user u ON p.user_id=u.user_id WHERE (project_title LIKE '%$search_key%' OR project_description LIKE '%$search_key%')";
+		$sql = "SELECT * FROM project p INNER JOIN user u ON p.user_id=u.user_id WHERE (p.project_title LIKE '%$search_key%' OR p.project_description LIKE '%$search_key%' OR u.name LIKE '%$search_key%')";
 	}
 	else {
-		$sql = "SELECT * FROM project p INNER JOIN user u ON p.user_id=u.user_id WHERE project_privacy=1 AND (project_title LIKE '%$search_key%' OR project_description LIKE '%$search_key%')";
+		$sql = "SELECT * FROM project p INNER JOIN user u ON p.user_id=u.user_id WHERE p.project_privacy=1 AND (project_title LIKE '%$search_key%' OR p.project_description LIKE '%$search_key%' OR u.name LIKE '%$search_key%')";
 	}
 
 	$result = mysqli_query($connection, $sql);
@@ -35,7 +35,7 @@
 		$list.= '<tr>
 			<th>'.$row['project_title'].'</th>
 			<th>'.$row['name'].'</th>
-			<th>'..'</th>
+			<th>'.substr($row['project_description'], 0, 10).'...</th>
 			<th>
 				<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit</button>
 			</th>
