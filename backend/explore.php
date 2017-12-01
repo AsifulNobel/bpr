@@ -28,7 +28,7 @@
             <td>'.$row['project_title'].'</td>
             <td>'.$row['name'].'</td>
             <td>'.substr($row['project_description'], 0, 10).'</td>
-            <td><a href=user_repo.php/'.$row['project_id'].' class="btn btn-primary" style="padding: 1px 5px;">Visit</a></td>
+            <td><a href=user_repo.php?id='.$row['project_id'].' class="btn btn-primary" style="padding: 1px 5px;">Visit</a></td>
         </tr>';
     }
 

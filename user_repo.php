@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<?php
+	require "db/db_connect.php";
+	session_start();
+
+	if (!isset($_GET['id'])) {
+		die('No project id passed');
+	}
+
+	$project_id = $_GET['id'];
+	$sql = "SELECT * FROM project WHERE project_id=$project_id";
+	$result = mysqli_query($connection, $sql);
+	$project = mysqli_fetch_assoc($result);
+
+	$sql = "SELECT * FROM review r JOIN user u ON r.user_id=u.user_id WHERE r.project_id=$project_id";
+	$result = mysqli_query($connection, $sql);
+ ?>
 <html>
 	<head>
 		<title>Sample Repo</title>
@@ -7,30 +23,7 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default" id="navBorderFix">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand">ProLab</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		        <ul class="nav navbar-nav">
-		            <li><a href="#">Home</a></li>
-					<li><a href="#">Profile</a></li>
-					<li><a href="#">Explore</a></li>
-					<li><a href="#">Add Repository</a></li>
-		        </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-		        <li><a onclick="" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		      </ul>
-		    </div>
-		  </div>
-		</nav>
+		<?php require "user_redirect.php"; ?>
 
 		<div class="container-fluid">
 		  <div class="col-md-12" style="">
@@ -38,17 +31,21 @@
 			    <div class="repo-detail" style="margin-top:20px;">
 					<div class="panel panel-primary">
 					  <div class="panel-heading">
-					    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
+					    <h2 class="panel-title"><?php echo $project['project_title']; ?> <a href="#" style="color:#51cd4b;">[View]</a></h2>
 					  </div>
 					  <div class="panel-body">
-					    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+					    <?php echo $project['project_description']; ?>
 					  </div>
 						<div class="panel-body">
 							<ul class="nav nav-pills">
 							  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
 							  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
 							  <li><a href="#" class="btn-success">Download Repo</a></li>
-							  <li><a href="#" class="btn-info">Settings</a></li>
+							  <?php
+							  	if ($project['user_id'] == $_SESSION['login_id']) {
+							  		echo '<li><a href="#" class="btn-info">Settings</a></li>';
+							  	}
+							   ?>
 							</ul>
 						</div>
 					</div>
@@ -56,41 +53,28 @@
 			  </div>
 
 			  <h3>Comments</h3>
-			  <div class="tab-pane fade active in" id="repos">
-			    <div class="repo-detail" style="margin-top:20px;">
-					<div class="panel">
-					  <div class="panel-heading">
-					    <h2 class="panel-title">Sample Username <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-					  </div>
-					  <div class="panel-body">
-					    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					  </div>
-					</div>
-			    </div>
-			  </div>
-			  <div class="tab-pane fade active in" id="repos">
-			    <div class="repo-detail" style="margin-top:20px;">
-					<div class="panel">
-					  <div class="panel-heading">
-					    <h2 class="panel-title">Sample Username <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-					  </div>
-					  <div class="panel-body">
-					    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					  </div>
-					</div>
-			    </div>
-			  </div>
-			  <div class="tab-pane fade active in" id="repos">
-			    <div class="repo-detail" style="margin-top:20px;">
-					<div class="panel">
-					  <div class="panel-heading">
-					    <h2 class="panel-title">Sample Username <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-					  </div>
-					  <div class="panel-body">
-					    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					  </div>
-					</div>
-			    </div>
+			  <form class="form-inline" id="comment-form">
+				  <div class="form-group">
+				  	<textarea cols="100" rows="3" class="form-control" id="review" name="review_content" value="" placeholder="Add a comment..."></textarea>
+					<button type="submit" class="form-control" name="Submit">Comment</button>
+					<input type="hidden" id="project_id" name="project_id" value="<?php echo $project['project_id']; ?>">
+				  </div>
+			  </form>
+			  <div id="comments">
+				  <?php
+				  	while ($row=mysqli_fetch_assoc($result)) {
+				  		echo '<div class="repo-detail" style="margin-top:20px;">
+	  					<div class="panel">
+	  					  <div class="panel-heading">
+	  					    <h2 class="panel-title">'.$row['name'].' <a href=user_profile.php?id='.$row['user_id'].' style="color:#51cd4b;">[Visit]</a></h2>
+	  					  </div>
+	  					  <div class="panel-body">
+	  					    '.$row['review_content'].'
+	  					  </div>
+	  					</div>
+	  			    </div>';
+				  	}
+				   ?>
 			  </div>
 		  </div>
 		</div>
@@ -99,5 +83,18 @@
 
 	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
-
+	<script type="text/javascript">
+		$('#comment-form').submit(function() {
+			var review = $('#review').val();
+			var project_id = $('#project_id').val();
+			$.post("backend/add_review.php", {review_content: review, project_id: project_id}, function(data) {
+				if (data == "Okay") {
+					location.reload();
+				}
+				else {
+					alert("Database Error");
+				}
+			})
+		});
+	</script>
 </html>
