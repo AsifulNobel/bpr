@@ -1,36 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>My Profile</title>
+		<title>User Profile</title>
 		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default" id="navBorderFix">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand">ProLab</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		        <ul class="nav navbar-nav">
-		            <li><a href="#">Home</a></li>
-					<li class="active"><a href="#">Profile</a></li>
-					<li><a href="#">Explore</a></li>
-					<li><a href="#">Add Repository</a></li>
-		        </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-		        <li><a onclick="" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		      </ul>
-		    </div>
-		  </div>
-		</nav>
+		<?php require "user_redirect.php"; ?>
+		<?php require "backend/profile_info.php" ?>
 
 		<div class="container-fluid">
 		  <div class="col-md-3" style="height:588px;">
@@ -46,17 +24,17 @@
 
     			      <tr>
     			        <td><strong>Name</strong></td>
-    			        <td>Asiful Haque Latif</td>
+    			        <td><?php echo $list['name']; ?></td>
     			      </tr>
 
     			      <tr>
     			        <td><strong>Email</strong></td>
-    			        <td>asiful.latif@northsouth.edu</td>
+    			        <td><?php echo $list['email']; ?></td>
     			      </tr>
 
     				  <tr>
     			        <td><strong>NSU ID</strong></td>
-    			        <td>1411125042</td>
+    			        <td><?php echo $list['student_id']; ?></td>
     			      </tr>
     			  </table>
 				</div>
@@ -65,88 +43,34 @@
 
 		  <div class="col-md-8" style="">
 			  <ul class="nav nav-tabs">
-				  <li class="active"><a href="#repos" data-toggle="tab">Repositories <span class="badge">5</span></a></li>
+				  <li class="active"><a href="#repos" data-toggle="tab">Repositories <span class="badge"><?php echo $project_count; ?></span></a></li>
 				  <li><a href="#followers" data-toggle="tab">Followers <span class="badge">3</span></a></li>
 				  <li><a href="#following" data-toggle="tab">Following <span class="badge">2</span></a></li>
 			  </ul>
 			  <div id="myTabContent" class="tab-content">
 				  <div class="tab-pane fade active in" id="repos">
 				    <div class="repo-detail" style="margin-top:20px;">
-						<div class="panel panel-primary">
-						  <div class="panel-heading">
-						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-						  </div>
-						  <div class="panel-body">
-						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-						  </div>
-							<div class="panel-body">
-								<ul class="nav nav-pills">
-								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
-								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
-								</ul>
+						<?php
+							foreach ($list['project'] as $value) {
+						?>
+							<div class="panel panel-primary">
+							  <div class="panel-heading">
+								<h2 class="panel-title"><?php echo $value['project_title']; ?><a href="#" style="color:#51cd4b;"> [Visit]</a></h2>
+							  </div>
+							  <div class="panel-body">
+								<?php echo $value['project_description']; ?>
+							  </div>
+								<div class="panel-body">
+									<ul class="nav nav-pills">
+									  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+									  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
+									  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+									</ul>
+								</div>
 							</div>
-						</div>
-						<div class="panel panel-primary">
-						  <div class="panel-heading">
-						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-						  </div>
-						  <div class="panel-body">
-						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-						  </div>
-							<div class="panel-body">
-								<ul class="nav nav-pills">
-								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
-								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="panel panel-primary">
-						  <div class="panel-heading">
-						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-						  </div>
-						  <div class="panel-body">
-						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-						  </div>
-							<div class="panel-body">
-								<ul class="nav nav-pills">
-								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
-								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="panel panel-primary">
-						  <div class="panel-heading">
-						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-						  </div>
-						  <div class="panel-body">
-						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-						  </div>
-							<div class="panel-body">
-								<ul class="nav nav-pills">
-								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
-								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="panel panel-primary">
-						  <div class="panel-heading">
-						    <h2 class="panel-title">Project Title <a href="#" style="color:#51cd4b;">[Visit]</a></h2>
-						  </div>
-						  <div class="panel-body">
-						    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-						  </div>
-							<div class="panel-body">
-								<ul class="nav nav-pills">
-								  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-								  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
-								  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
-								</ul>
-							</div>
-						</div>
+						<?php
+							}
+						?>
 				    </div>
 				  </div>
 				  <div class="tab-pane fade" id="following">
@@ -216,5 +140,4 @@
 
 	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
-
 </html>

@@ -6,6 +6,7 @@
 	$email = $_POST['email'];
 	$password = $_POST['password'];
 	$gender = $_POST['gender'];
+	$id = $_POST['id'];
 	$hash = password_hash($password, PASSWORD_BCRYPT);
 
 	$sql = "SELECT email FROM user WHERE email='$email'";
@@ -15,7 +16,7 @@
 		echo 'Exists';
 	}
 	else{
-		$sql = "INSERT INTO user (email, password, name, gender) VALUES ('$email', '$hash', '$name', '$gender')";
+		$sql = "INSERT INTO user (email, password, name, gender, student_id) VALUES ('$email', '$hash', '$name', '$gender', '$id')";
 
 		$result = mysqli_query($connection, $sql);
 

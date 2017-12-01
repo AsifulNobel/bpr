@@ -1,3 +1,17 @@
+<?php
+
+	session_start();
+
+	if (isset($_SESSION['login_id'])) {
+        if ($_SESSION['login_role_id']==1) {
+            header ("Location: admin_panel.php");
+        }
+        elseif ($_SESSION['login_role_id']==2) {
+            header ("Location: home.php");
+        }
+    }
+?>
+
 <nav class="navbar navbar-default" id="navBorderFix">
   <div class="container-fluid">
     <div class="navbar-header">

@@ -21,7 +21,7 @@
 		$list .= '<tr>
 					<td>'.$row['name'].'</td>
 		    		<td>'.$row['email'].'</td>
-		    		<td><a href=user_profile_other.php?id='.$row['user_id'].' class="btn btn-primary" style="padding: 1px 5px;">Visit This Profile</a></td>
+		    		<td><a href=user_profile.php?id='.$row['user_id'].' class="btn btn-primary" style="padding: 1px 5px;">Visit This Profile</a></td>
 		    		<td><a href='.$row['user_id'].' class="btn btn-danger" style="padding: 1px 5px;">Delete</a></td>';
         $list .= '</tr>';
 	}

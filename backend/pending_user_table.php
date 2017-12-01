@@ -1,44 +1,39 @@
 <?php
-
 	session_start();
 
 	include '../db/db_connect.php';
 
-	$name = $_POST['name'];
-	$gender = $_POST['gender'];
+	$query = $_POST['query'];
 
-	$list = '<table id="myTable" class="table">
-		<thead>
+	$list = '<table class="table table-striped table-hover table-bordered">
+	<thead>
 		<tr>
-			<th>Photo</th>
-			<th data-sort="string">Name</th>
-			<th data-sort="string">Email</th>
-			<th data-sort="string">Date of Birth</th>
-			<th data-sort="string">Gender</th>
-			<th data-sort="string">Role</th>';
+			<th>Name</th>
+			<th>Email Address</th>
+			<th>ID</th>
+			<th>Role</th>';
 
-		if($_SESSION['login_role_id']==1){
-			$list .= '<th>Actions</th>';
-		}
+	if($_SESSION['login_role_id']==1){
+		$list .= '<th colspan="2">Actions</th>';
+	}
 
-		$list .= '</tr>
-					</thead>
+	$list .= '</tr>
+			</thead>
+			<tbody>';
 
-					<tbody>';
-
-
-	$sql = "SELECT * FROM user WHERE name LIKE '%$name%' AND gender LIKE '$gender%' AND user_status=0";
-
+	if (strlen($query) > 0) {
+		$sql = "SELECT * FROM user WHERE CONCAT(name, student_id, email) LIKE '%$query%' AND user_status=0";
+	} else {
+		$sql = "SELECT * FROM user WHERE user_status=0";
+	}
 
 	$result = mysqli_query($connection, $sql);
-	while ($row = mysqli_fetch_assoc($result)) {
 
+	while ($row = mysqli_fetch_assoc($result)) {
 		$list.= '<tr>
-					<td><img src="uploads/'.$row['photo'].'" style="height: 50px; width: 50px"></td>
 					<td>'.$row['name'].'</td>
 		    		<td>'.$row['email'].'</td>
-		    		<td>'.$row['date_of_birth'].'</td>
-		    		<td>'.$row['gender'].'</td>';
+		    		<td>'.$row['student_id'].'</td>';
 
 		    		$role_id = $row['role_id'];
 
@@ -49,17 +44,10 @@
 		    		$list .= '<td>'.$row2['role_name'].'</td>';
 
 		    		if($_SESSION['login_role_id']==1){
-
-		    			$list .= '<td>
-
-		    			<button class="btn btn-primary" onclick="approve_user('.$row['user_id'].')">Approve</button>';
-
-		    			if($row['role_id']!=1){
-
-		    				$list .= '<button class="btn btn-danger" onclick="delete_user('.$row['user_id'].')">Delete</button>';
-		    			}
-
-		    			$list .= '</td>';
+		    			$list .= '<td colspan="2">
+							<button type="button" name="button" class="btn btn-primary" onclick="approve_user('.$row['user_id'].')" style="padding: 1px 5px;"><i class="fa fa-check" aria-hidden="true"></i></button>
+							<button type="button" name="button" class="btn btn-danger" onclick="delete_user('.$row['user_id'].')" style="padding: 1px 5px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+						</td>';
 		    		}
 
 		    		$list .= '</tr>';
@@ -67,5 +55,6 @@
 
 	$list .= '</tbody>
 				</table>';
+
 	echo $list;
 ?>

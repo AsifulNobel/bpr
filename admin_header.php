@@ -5,7 +5,7 @@
 	if (!isset($_SESSION['login_id'])) {
         header ("Location: login.php");
     }
- ?>
+?>
 
 <nav class="navbar navbar-default" id="navBorderFix">
   <div class="container-fluid">
@@ -20,9 +20,9 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
 
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Pending</a></li>
-        <li><a href="#">Browse Repositories</a></li>
+        <li><a href="admin_panel.php">Home</a></li>
+        <li><a href="pending_users.php">Pending</a></li>
+        <li><a href="browse_repositories.php">Browse Repositories</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>

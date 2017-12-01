@@ -31,6 +31,13 @@
 		                </div>
 
 						<div class="form-group">
+		                    <label for="email" class="control-label">NSU ID</label>
+		                    <div class="">
+		                        <input type="number" id="id" name="id" placeholder="Identification Number" class="form-control" data-required="true">
+		                    </div>
+		                </div>
+
+						<div class="form-group">
 		                    <label for="gender" class="control-label">Gender</label>
 		                    <div class="">
 		                        <input type="text" id="gender" name="gender" placeholder="Sex" class="form-control" data-required="true">
