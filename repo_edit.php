@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<?php
+	require "db/db_connect.php";
+	session_start();
+
+	if (!isset($_GET['id'])) {
+		die('No project id passed');
+	}
+
+	$project_id = $_GET['id'];
+	$sql = "SELECT * FROM project WHERE project_id=$project_id";
+	$result = mysqli_query($connection, $sql);
+	$project = mysqli_fetch_assoc($result);
+
+	if ($project['user_id'] != $_SESSION['login_id']) {
+		header('Location: login.php');
+	}
+ ?>
 <html>
 	<head>
 		<title>Repository Info</title>
@@ -7,66 +24,58 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default" id="navBorderFix">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand">ProLab</a>
-		    </div>
-		    <div class="collapse navbar-collapse" id="myNavbar">
-		        <ul class="nav navbar-nav">
-		            <li><a href="#">Home</a></li>
-					<li><a href="#">Profile</a></li>
-					<li><a href="#">Explore</a></li>
-					<li><a href="#">Add Repository</a></li>
-		        </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-		        <li><a onclick="" href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-		      </ul>
-		    </div>
-		  </div>
-		</nav>
+		<?php require "user_redirect.php"; ?>
+
 		<div class="container">
 
 			<h2 class="text-center">Edit Repository Info</h2>
 
-			<div class="col-md-12 col-md-offset-2">
-				<form class="form-horizontal" id="edit-user-form">
+			<div class="col-md-10 col-md-offset-3">
+				<form class="form-horizontal" id="edit-repo-form">
 
-					<input type="hidden" name="user_id" value="">
+					<input type="hidden" name="project_id" value="<?php echo $project_id; ?>">
 
 					<div class="form-group">
 						<label for="name" class="control-label col-sm-2">Project Title</label>
 						<div class="col-sm-4">
-							<input class="form-control" type="text" name="name" id="name">
+							<input class="form-control" type="text" name="project_title" id="project_title" data-required="true" value="<?php echo $project['project_title']; ?>">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="email" class="control-label col-sm-2">Project Description</label>
 						<div class="col-sm-4">
-							<input class="form-control" type="email" name="text" id="email" value="">
+							<textarea rows="10" class="form-control" name="project_description" id="project_description" data-required="true"><?php echo $project['project_description']; ?></textarea>
 						</div>
 					</div>
+
+					<div class="form-group">
+	                    <label class="control-label col-sm-2">Project Privacy</label>
+	                    <div class="btn-group col-sm-4" data-toggle="buttons">
+                            <label class="btn btn-primary <?php if($project['project_privacy']==1){echo 'active';}?>">
+								<input type="radio" id="project_privacy" name="project_privacy" value="1" <?php if($project['project_privacy']==1){echo "checked";}?>>Public
+							</label>
+							<label class="btn btn-primary <?php if($project['project_privacy']==0){echo 'active';}?>">
+								<input type="radio" id="project_privacy" name="project_privacy" value="0" <?php if($project['project_privacy']==0){echo "checked";}?>>Private
+							</label>
+	                    </div>
+	                </div>
 
 					<div class="form-group">
 					    <label for="photo" class="col-sm-2 control-label">Upload new files</label>
 					    <div class="col-sm-4">
-					        <input type="file" id="photo" name="photo" class="form-control">
+					        <input type="file" id="project_file" name="project_file" class="form-control">
 					    </div>
 					</div>
 
 					<div class="form-group">
-						<div class="col-md-6" style="margin-left:190px;">
-							<input class="btn btn-success" type="submit" name="submit" value="Save Repository Information">
-						</div>
-						<div class="col-md-4" style="margin-left:-335px;">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change_password_modal">Delete Repo</button>
+						<div class="row">
+							<div class="col-md-offset-2 col-md-2">
+								<input class="btn btn-success" type="submit" name="submit" value="Save Repository Information">
+							</div>
+							<div class="col-md-offset-1 col-md-2">
+								<button type="button" class="btn btn-primary" onclick="delete_repo()">Delete Repo</button>
+							</div>
 						</div>
 					</div>
 				</form>
@@ -76,5 +85,76 @@
 
 	<script type="text/javascript" src="static/js/jquery-2.2.3.min.js"></script>
 	<script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var allowed_files = ['application/zip', 'application/rar'];
+		var border_color = "#2c3e50";
 
+		$("#edit-repo-form").submit(function(e){
+			e.preventDefault();
+			proceed = true;
+
+			$($(this).find("input[data-required=true], textarea[data-required=true]")).each(function(){
+					if(!$.trim($(this).val())){
+						$(this).css('border-color','red');
+						proceed = false;
+					}
+
+			}).on("input", function(){
+				 $(this).css('border-color', border_color);
+			});
+
+
+			if(window.File && window.FileReader && window.FileList && window.Blob){
+				var total_files_size = 0;
+
+				$(this.elements['project_file'].files).each(function(i, ifile){
+					if(ifile.value !== ""){
+						if(allowed_files.indexOf(ifile.type) === -1){
+							alert( ifile.name + " is unsupported file type!");
+							proceed = false;
+						}
+					 total_files_size = total_files_size + ifile.size;
+					}
+					else{
+						alert("Please select zip/rar file");
+						proceed = false;
+					}
+				});
+			}
+
+
+			if(proceed){
+				$.ajax({
+					url: "backend/update_project.php",
+					type: "POST",
+					data:  new FormData(this),
+					contentType: false,
+					cache: false,
+					processData:false,
+					success: function(data){
+						if(data=="Okay"){
+							alert("Repository Updated!");
+							window.location.replace("user_repo.php?id="+<?php echo $project_id; ?>);
+						}
+						else{
+							alert(data);
+						}
+					}
+				});
+			}
+		});
+
+		function delete_repo() {
+			$.post('backend/delete_project.php', {project_id: <?php echo $project['project_id']; ?>},
+				function(result) {
+					if (result=="Okay") {
+						alert("Project Deleted");
+						window.location.replace('user_profile.php');
+					}
+					else {
+						alert("Project Deletion Failure");
+					}
+				})
+		}
+	</script>
 </html>

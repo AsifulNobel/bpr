@@ -8,16 +8,21 @@
 	}
 
 	$project_id = $_GET['id'];
+
 	$sql = "SELECT * FROM project WHERE project_id=$project_id";
 	$result = mysqli_query($connection, $sql);
 	$project = mysqli_fetch_assoc($result);
+
+	if ($project['project_privacy']==0 && $project['user_id']!=$_SESSION['login_id']) {
+		header("Location: login.php");
+	}
 
 	$sql = "SELECT * FROM review r JOIN user u ON r.user_id=u.user_id WHERE r.project_id=$project_id";
 	$result = mysqli_query($connection, $sql);
  ?>
 <html>
 	<head>
-		<title>Sample Repo</title>
+		<title><?php echo $project['project_title']; ?></title>
 		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/style.css">
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
@@ -31,7 +36,7 @@
 			    <div class="repo-detail" style="margin-top:20px;">
 					<div class="panel panel-primary">
 					  <div class="panel-heading">
-					    <h2 class="panel-title"><?php echo $project['project_title']; ?> <a href="#" style="color:#51cd4b;">[View]</a></h2>
+					    <h2 class="panel-title"><?php echo $project['project_title']; ?></h2>
 					  </div>
 					  <div class="panel-body">
 					    <?php echo $project['project_description']; ?>
@@ -40,10 +45,11 @@
 							<ul class="nav nav-pills">
 							  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
 							  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
-							  <li><a href="#" class="btn-success">Download Repo</a></li>
+							  <li><a href="repositories/<?php echo $project['user_id'].'/'.$project['project_url'] ?>" class="btn-success">Download Repo</a></li>
+							  <li><a href="user_profile.php?id=<?php echo $project['user_id']; ?>" class="btn-warning">Visit User Profile</a></li>
 							  <?php
-							  	if ($project['user_id'] == $_SESSION['login_id']) {
-							  		echo '<li><a href="#" class="btn-info">Settings</a></li>';
+							  	if ($project['user_id'] == $_SESSION['login_id'] || $_SESSION['login_role_id'] == 1) {
+							  		echo '<li><a href="repo_edit.php?id='.$project['project_id'].'" class="btn-info">Settings</a></li>';
 							  	}
 							   ?>
 							</ul>

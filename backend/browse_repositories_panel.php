@@ -37,7 +37,7 @@
 			<th>'.$row['name'].'</th>
 			<th>'.substr($row['project_description'], 0, 10).'...</th>
 			<th>
-				<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit</button>
+				<a href=user_repo.php?id='.$row['project_id'].' name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit</a>
 			</th>
 		</tr>';
 	}

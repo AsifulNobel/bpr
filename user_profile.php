@@ -19,7 +19,7 @@
 				<div class="panel-body">
 					<table class="table">
     			      <tr>
-    			        <td colspan="2" style="padding-left:30px;"><img style="height: 200px; width: 200px;" src="uploads/default_user_male.jpg"></td>
+    			        <td colspan="2" style="padding-left:30px;"><img style="height: 200px; width: 200px;" src="uploads/<?php echo $list['photo']; ?>"></td>
     			      </tr>
 
     			      <tr>
@@ -55,7 +55,7 @@
 						?>
 							<div class="panel panel-primary">
 							  <div class="panel-heading">
-								<h2 class="panel-title"><?php echo $value['project_title']; ?><a href="#" style="color:#51cd4b;"> [Visit]</a></h2>
+								<h2 class="panel-title"><?php echo $value['project_title']; ?><a href="user_repo.php?id=<?php echo $value['project_id']; ?>" style="color:#51cd4b;"> [Visit]</a></h2>
 							  </div>
 							  <div class="panel-body">
 								<?php echo $value['project_description']; ?>

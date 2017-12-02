@@ -132,7 +132,7 @@
 						success: function(data){
 							if (data=="Okay") {
 								alert("Information Updated");
-								location.reload(true);
+								window.location.replace('user_profile.php');
 							}
 							else{
 								alert("Sorry");
