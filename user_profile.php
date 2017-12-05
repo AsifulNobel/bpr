@@ -44,14 +44,22 @@
 		  <div class="col-md-8" style="">
 			  <ul class="nav nav-tabs">
 				  <li class="active"><a href="#repos" data-toggle="tab">Repositories <span class="badge"><?php echo $project_count; ?></span></a></li>
-				  <li><a href="#followers" data-toggle="tab">Followers <span class="badge">3</span></a></li>
-				  <li><a href="#following" data-toggle="tab">Following <span class="badge">2</span></a></li>
+				  <!-- <li><a href="#followers" data-toggle="tab">Followers <span class="badge">3</span></a></li>
+				  <li><a href="#following" data-toggle="tab">Following <span class="badge">2</span></a></li> -->
 			  </ul>
 			  <div id="myTabContent" class="tab-content">
 				  <div class="tab-pane fade active in" id="repos">
 				    <div class="repo-detail" style="margin-top:20px;">
 						<?php
 							foreach ($list['project'] as $value) {
+								if ($value['project_privacy']==0 && $_SESSION['login_id'] != $value['user_id']) {
+									$proceed = False;
+								}
+								else{
+									$proceed = True;
+								}
+
+								if ($proceed) {
 						?>
 							<div class="panel panel-primary">
 							  <div class="panel-heading">
@@ -62,14 +70,16 @@
 							  </div>
 								<div class="panel-body">
 									<ul class="nav nav-pills">
-									  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-									  <li class="active"><a href="#">Comments <span class="badge">2</span></a></li>
-									  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+									  <!-- <li class="active"><a href="#">Likes <span class="badge">21</span></a></li> -->
+									  <li class="active"><a href="#">Comments <span class="badge">
+										  <?php echo $value['comment_count']; ?></span></a></li>
+									  <!-- <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li> -->
 									</ul>
 								</div>
 							</div>
 						<?php
-							}
+					}
+				}
 						?>
 				    </div>
 				  </div>

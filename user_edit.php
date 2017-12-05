@@ -34,18 +34,6 @@
 					</div>
 
 					<div class="form-group">
-						<label for="sex" class="control-label col-sm-2">Gender</label>
-						<div class="btn-group col-sm-4" data-toggle="buttons">
-						  <label class="btn btn-primary <?php if($list['gender']=="Male"){echo "active";}?>">
-						    <input type="radio" name="gender" id="option1" value="Male" <?php if($list['gender']=="Male"){echo "checked";}?>> Male
-						  </label>
-						  <label class="btn btn-primary <?php if($list['gender']=="Female"){echo "active";}?>">
-						    <input type="radio" name="gender" id="option2" value="Female" <?php if($list['gender']=="Female"){echo "checked";}?>> Female
-						  </label>
-						</div>
-					</div>
-
-					<div class="form-group">
 						<label for="date_of_birth" class="control-label col-sm-2">Date of Birth</label>
 						<div class="col-sm-4">
 							<input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="<?php echo $list['date_of_birth']; ?>">

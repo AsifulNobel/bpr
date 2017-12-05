@@ -43,8 +43,8 @@
 					  </div>
 						<div class="panel-body">
 							<ul class="nav nav-pills">
-							  <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-							  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li>
+							  <!-- <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
+							  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li> -->
 							  <li><a href="repositories/<?php echo $project['user_id'].'/'.$project['project_url'] ?>" class="btn-success">Download Repo</a></li>
 							  <li><a href="user_profile.php?id=<?php echo $project['user_id']; ?>" class="btn-warning">Visit User Profile</a></li>
 							  <?php

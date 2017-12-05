@@ -37,13 +37,6 @@
 		                    </div>
 		                </div>
 
-						<div class="form-group">
-		                    <label for="gender" class="control-label">Gender</label>
-		                    <div class="">
-		                        <input type="text" id="gender" name="gender" placeholder="Sex" class="form-control" data-required="true">
-		                    </div>
-		                </div>
-
 		                <div class="form-group">
 		                    <label for="password" class="control-label">Password</label>
 		                    <div class="">
@@ -81,8 +74,14 @@
 						proceed = false;
 					}
 
-					var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+					var email_reg = /^([\w-\.]+@northsouth.edu)$/;
 					if($(this).attr("type")=="email" && !email_reg.test($.trim($(this).val()))){
+						$(this).css('border-color','red');
+						proceed = false;
+					}
+
+					var id = /^(\d{10})$/;
+					if($(this).attr("type")=="number" && !id.test($.trim($(this).val()))){
 						$(this).css('border-color','red');
 						proceed = false;
 					}
@@ -109,7 +108,7 @@
 						window.location.replace("login.php");
 					}
 					else{
-						alert("Sorry. Try With University Email Address...!");
+						alert("Sorry. Try With University Email Address & ID...!");
 					}
 				}
 			});

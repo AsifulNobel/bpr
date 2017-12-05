@@ -26,6 +26,12 @@
     $project_count = 0;
 
 	while ($row = mysqli_fetch_assoc($result)) {
+        $project_id = $row['project_id'];
+        $commentCountSQL = "SELECT COUNT(*) as comment_count FROM review WHERE project_id=$project_id";
+        $coult = mysqli_query($connection, $commentCountSQL);
+        $countResult = mysqli_fetch_assoc($coult);
+        $row['comment_count'] = $countResult['comment_count'];
+
 	    array_push($list['project'], $row);
         $project_count += 1;
 	}
