@@ -14,7 +14,9 @@
 	$project = mysqli_fetch_assoc($result);
 
 	if ($project['project_privacy']==0 && $project['user_id']!=$_SESSION['login_id']) {
-		header("Location: login.php");
+		if ($_SESSION['login_role_id']!=1) {
+			header("Location: login.php");
+		}
 	}
 
 	$sql = "SELECT * FROM review r JOIN user u ON r.user_id=u.user_id WHERE r.project_id=$project_id";

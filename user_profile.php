@@ -52,10 +52,14 @@
 				    <div class="repo-detail" style="margin-top:20px;">
 						<?php
 							foreach ($list['project'] as $value) {
-								if ($value['project_privacy']==0 && $_SESSION['login_id'] != $value['user_id']) {
+								if ($value['project_privacy']==0 &&  $_SESSION['login_id'] != $value['user_id']) {
 									$proceed = False;
 								}
 								else{
+									$proceed = True;
+								}
+
+								if ($_SESSION['login_role_id']==1) {
 									$proceed = True;
 								}
 
