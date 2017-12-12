@@ -33,8 +33,10 @@
     			      </tr>
 
     				  <tr>
-    			        <td><strong>NSU ID</strong></td>
-    			        <td><?php echo $list['student_id']; ?></td>
+						<?php if($list['student_id'] != ''): ?>
+	    			        <td><strong>NSU ID</strong></td>
+	    			        <td><?php echo $list['student_id']; ?></td>
+						<?php endif; ?>
     			      </tr>
     			  </table>
 				</div>
@@ -44,8 +46,6 @@
 		  <div class="col-md-8" style="">
 			  <ul class="nav nav-tabs">
 				  <li class="active"><a href="#repos" data-toggle="tab">Repositories <span class="badge"><?php echo $project_count; ?></span></a></li>
-				  <!-- <li><a href="#followers" data-toggle="tab">Followers <span class="badge">3</span></a></li>
-				  <li><a href="#following" data-toggle="tab">Following <span class="badge">2</span></a></li> -->
 			  </ul>
 			  <div id="myTabContent" class="tab-content">
 				  <div class="tab-pane fade active in" id="repos">
@@ -74,10 +74,8 @@
 							  </div>
 								<div class="panel-body">
 									<ul class="nav nav-pills">
-									  <!-- <li class="active"><a href="#">Likes <span class="badge">21</span></a></li> -->
 									  <li class="active"><a href="#">Comments <span class="badge">
 										  <?php echo $value['comment_count']; ?></span></a></li>
-									  <!-- <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li> -->
 									</ul>
 								</div>
 							</div>
@@ -86,65 +84,6 @@
 				}
 						?>
 				    </div>
-				  </div>
-				  <div class="tab-pane fade" id="following">
-					  <table class="table table-striped table-hover table-bordered">
-  						<tbody>
-  							<tr>
-								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
-								<th>Rifatt Bin Assad</th>
-								<th>rifatt.assad@northsouth.edu</th>
-								<th>1331024042</th>
-								<th>
-									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
-								</th>
-								<th><button type="button" name="button" class="btn btn-warning" style="padding: 1px 5px;">Unfollow</button></th>
-  							</tr>
-							<tr>
-								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
-								<th>Sample Name</th>
-								<th>sample.name@northsouth.edu</th>
-								<th>10-digit ID</th>
-								<th>
-									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
-								</th>
-								<th><button type="button" name="button" class="btn btn-warning" style="padding: 1px 5px;">Unfollow</button></th>
-							</tr>
-  						</tbody>
-  					</table>
-				  </div>
-				  <div class="tab-pane fade" id="followers">
-				    <table class="table table-striped table-hover table-bordered">
-				    	<tbody>
-							<tr>
-								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
-								<th>Sample Name</th>
-								<th>sample.name@northsouth.edu</th>
-								<th>10-digit ID</th>
-								<th>
-									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
-								</th>
-							</tr>
-							<tr>
-								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
-								<th>Sample Name</th>
-								<th>sample.name@northsouth.edu</th>
-								<th>10-digit ID</th>
-								<th>
-									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
-								</th>
-							</tr>
-							<tr>
-								<td><img style="height: 50px; width: 50px;margin-left:20px;" src="uploads/default_user_male.jpg"></td>
-								<th>Sample Name</th>
-								<th>sample.name@northsouth.edu</th>
-								<th>10-digit ID</th>
-								<th>
-									<button type="button" name="button" class="btn btn-primary" style="padding: 1px 5px;">Visit Profile</button>
-								</th>
-							</tr>
-				    	</tbody>
-				    </table>
 				  </div>
 			  </div>
 		  </div>

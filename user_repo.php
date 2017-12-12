@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-	require "db/db_connect.php";
+	require_once "db/db_connect.php";
 	session_start();
 
 	if (!isset($_GET['id'])) {
@@ -45,9 +45,7 @@
 					  </div>
 						<div class="panel-body">
 							<ul class="nav nav-pills">
-							  <!-- <li class="active"><a href="#">Likes <span class="badge">21</span></a></li>
-							  <li class="active"><a href="#">Downloads <span class="badge">33</span></a></li> -->
-							  <li><a href="repositories/<?php echo $project['user_id'].'/'.$project['project_url'] ?>" class="btn-success">Download Repo</a></li>
+							  <li><a href="#" id="download" class="btn-success">Download Project Files</a></li>
 							  <li><a href="user_profile.php?id=<?php echo $project['user_id']; ?>" class="btn-warning">Visit User Profile</a></li>
 							  <?php
 							  	if ($project['user_id'] == $_SESSION['login_id'] || $_SESSION['login_role_id'] == 1) {
@@ -104,5 +102,16 @@
 				}
 			})
 		});
+
+		$('#download').click(function(e) {
+			e.preventDefault();
+
+			$.post('backend/download_files.php',
+				{project_id:$('#project_id').val()},
+				function(result) {
+					window.location.href = result;
+				}
+			)
+		})
 	</script>
 </html>

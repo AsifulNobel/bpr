@@ -43,7 +43,7 @@
         var query = $("#query").val();
 
         $.post("backend/pending_user_table.php",{query:query},function(result){
-            console.log(result);
+
             $("#user-table").html(result);
         });
       }
@@ -57,6 +57,9 @@
           if (result=="Okay") {
             show_pending_user_list();
             alert("User approved");
+          }
+          else {
+              alert(result);
           }
         });
 

@@ -37,6 +37,17 @@
 		                    </div>
 		                </div>
 
+						<div class="form-group">
+							<label for="select" class="control-label">Role</label>
+						    <div class="">
+						        <select class="form-control" id="role" name="role">
+						          <option value="1">Admin</option>
+						          <option value="2">Student</option>
+						          <option value="3">Faculty</option>
+						        </select>
+							</div>
+						</div>
+
 		                <div class="form-group">
 		                    <label for="password" class="control-label">Password</label>
 		                    <div class="">
@@ -84,6 +95,12 @@
 					if($(this).attr("type")=="number" && !id.test($.trim($(this).val()))){
 						$(this).css('border-color','red');
 						proceed = false;
+					}
+
+					// Faculty does not need to give identification number
+					if ($(this).attr('id')=='id' && ($('#role').val() == '1' || $('#role').val() == '3')) {
+						$(this).css('border-color', border_color);
+						proceed = true;
 					}
 
 		}).on("input", function(){

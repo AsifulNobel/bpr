@@ -12,8 +12,22 @@
 	$result = mysqli_query($connection, $sql);
 	$project = mysqli_fetch_assoc($result);
 
-	if ($project['user_id'] != $_SESSION['login_id']) {
-		header('Location: login.php');
+	if ($project['project_privacy']==0 && $project['user_id']!=$_SESSION['login_id']) {
+		if ($_SESSION['login_role_id']!=1) {
+			header("Location: login.php");
+		}
+	}
+
+	$sql = "SELECT * FROM project_files WHERE project_id=$project_id";
+	$result = mysqli_query($connection, $sql);
+	$project_files = array();
+
+	while ($row = mysqli_fetch_assoc($result)) {
+		array_push($project_files, array(
+				0 => substr($row['location'], strrpos($row['location'], '/')+1),
+				1 => $row['ID']
+			)
+		);
 	}
  ?>
 <html>
@@ -51,29 +65,45 @@
 
 					<div class="form-group">
 	                    <label class="control-label col-sm-2">Project Privacy</label>
-	                    <div class="btn-group col-sm-4" data-toggle="buttons">
-                            <label class="btn btn-primary <?php if($project['project_privacy']==1){echo 'active';}?>">
-								<input type="radio" id="project_privacy" name="project_privacy" value="1" <?php if($project['project_privacy']==1){echo "checked";}?>>Public
-							</label>
-							<label class="btn btn-primary <?php if($project['project_privacy']==0){echo 'active';}?>">
-								<input type="radio" id="project_privacy" name="project_privacy" value="0" <?php if($project['project_privacy']==0){echo "checked";}?>>Private
-							</label>
+	                    <div class="btn-group col-sm-4">
+                            <div class="radio">
+								<label>
+									<input type="radio" id="project_privacy" name="project_privacy" value="1" <?php if($project['project_privacy']==1){echo "checked";}?>>Public
+								</label>
+                            </div>
+							<div class="radio">
+								<label>
+									<input type="radio" id="project_privacy" name="project_privacy" value="0" <?php if($project['project_privacy']==0){echo "checked";}?>>Private
+								</label>
+							</div>
 	                    </div>
 	                </div>
 
 					<div class="form-group">
-					    <label for="photo" class="col-sm-2 control-label">Upload new files</label>
+					    <label for="project_file" class="col-sm-2 control-label">Upload new files</label>
 					    <div class="col-sm-4">
 					        <input type="file" id="project_file" name="project_file" class="form-control">
 					    </div>
 					</div>
 
 					<div class="form-group">
+						<label for="file_delete" class="col-sm-2 control-label">Delete existing files</label>
+							<div class="col-sm-4">
+								<select class="form-control" id="file_delete" name="file_delete[]" multiple>
+									<?php foreach ($project_files as $file) {
+										echo '<option value="'.$file[1].'">'.$file[0].'</option>';
+									} ?>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
 						<div class="row">
-							<div class="col-md-offset-2 col-md-2">
+							<div class="col-sm-offset-4 col-sm-3">
 								<input class="btn btn-success" type="submit" name="submit" value="Save Repository Information">
 							</div>
-							<div class="col-md-offset-1 col-md-2">
+							<div class="col-sm-2">
 								<button type="button" class="btn btn-primary" onclick="delete_repo()">Delete Repo</button>
 							</div>
 						</div>
