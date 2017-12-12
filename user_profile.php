@@ -38,6 +38,13 @@
 	    			        <td><?php echo $list['student_id']; ?></td>
 						<?php endif; ?>
     			      </tr>
+
+					  <?php if (isset($list['faculty'])): ?>
+  						<tr>
+  							<td><strong>Faculty Initial</strong></td>
+							<td><?php echo $list['faculty'][0]['initial']; ?></td>
+  						</tr>
+  					<?php endif; ?>
     			  </table>
 				</div>
 			  </div>

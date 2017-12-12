@@ -9,6 +9,12 @@
 	$date_of_birth = $_POST['date_of_birth'];
 	$photo = $_FILES['photo']['name'];
 
+	if ($_SESSION['login_role_id'] == 3) {
+		if (isset($_POST['initial'])) {
+			$initial = $_POST['initial'];
+		}
+	}
+
 	if(!empty($photo)){
 		$targetdir = '../uploads/';
 		$targetfile = $targetdir.$_FILES['photo']['name'];
@@ -21,6 +27,12 @@
 	}
 
 	$result = mysqli_query($connection, $sql);
+
+	if ($_SESSION['login_role_id'] == 3) {
+		$sql = "UPDATE faculty SET name = '$name', initial = '$initial' WHERE user_id='$user_id'";
+
+		$result = mysqli_query($connection, $sql);
+	}
 
 	if ($result) {
 	    echo "Okay";

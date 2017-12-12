@@ -19,6 +19,12 @@
 	$result = mysqli_query($connection, $sql);
 	$list = mysqli_fetch_assoc($result);
 
+    if ($list['role_id'] == 3) {
+        $sql = "SELECT * FROM faculty WHERE user_id=$query";
+        $result = mysqli_query($connection, $sql);
+        $list['faculty'] = array(mysqli_fetch_assoc($result));
+    }
+
     $sql = "SELECT * FROM project WHERE user_id=$query";
     $result = mysqli_query($connection, $sql);
 

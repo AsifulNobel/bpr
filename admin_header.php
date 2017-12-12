@@ -23,6 +23,7 @@
         <li><a href="admin_panel.php">Home</a></li>
         <li><a href="pending_users.php">Pending</a></li>
         <li><a href="browse_repositories.php">Browse Repositories</a></li>
+		<li><a href="course_list.php">Courses</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="user_edit.php"><span class="glyphicon glyphicon-user"></span> Account</a></li>

@@ -20,12 +20,10 @@
 		$_SESSION['login_email']=$row['email'];
 		$_SESSION['login_role_id']=$row['role_id'];
 
-		if($row['role_id']==1 && $row['user_status']==1) {
-			echo "1";
+		if ($row['user_status'] == 1) {
+			echo $row['role_id'];
 		}
-		else if($row['role_id']==2 && $row['user_status']==1) {
-			echo "2";
-		}
+
 	}
 	else{
 		echo "Sorry";

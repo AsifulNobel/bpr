@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<?php require "user_header.php" ?>
+		<?php require "user_redirect.php"; ?>
 
 		<div class="container">
 			<div class="jumbotron text-center">

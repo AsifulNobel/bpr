@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
 	</head>
 	<body>
-		<?php require "admin_header.php"; ?>
+		<?php require "user_redirect.php"; ?>
 
 		<div class="container">
 			<h2>User Information</h2>

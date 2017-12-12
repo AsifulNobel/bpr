@@ -26,6 +26,15 @@
 						</div>
 					</div>
 
+					<?php if (isset($list['faculty'])): ?>
+					<div class="form-group">
+						<label for="initial" class="control-label col-sm-2">Faculty Initial</label>
+						<div class="col-sm-4">
+							<input class="form-control" type="text" name="initial" id="initial" value="<?php echo $list['faculty'][0]['initial']; ?>">
+						</div>
+					</div>
+					<?php endif; ?>
+
 					<div class="form-group">
 						<label for="email" class="control-label col-sm-2">Email</label>
 						<div class="col-sm-4">

@@ -82,7 +82,7 @@
 						if(data=="1"){
 							window.location.replace("admin_panel.php");
 						}
-						else if(data=="2"){
+						else if(data=="2" || data=="3"){
 							window.location.replace("home.php");
 						}
 						else if(data=="0"){
