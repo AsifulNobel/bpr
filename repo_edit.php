@@ -29,6 +29,9 @@
 			)
 		);
 	}
+
+	$sql = "SELECT c.ID as id, c.title as title, c.code as code, c.section as section, f.initial as initial, CONCAT(s.name, '-',s.year) as semester FROM course c INNER JOIN faculty f on c.faculty_id=f.ID INNER JOIN semester s on c.semester_id=s.ID";
+	$result = mysqli_query($connection, $sql);
  ?>
 <html>
 	<head>
@@ -78,6 +81,21 @@
 							</div>
 	                    </div>
 	                </div>
+
+					<div class="form-group">
+						<label for="course" class="col-sm-2 control-label">Course</label>
+						<div class="col-sm-4">
+							<select class="form-control" id="course" name="course">
+								<option disabled selected> -- select an option -- </option>
+								<?php
+									while ($row = mysqli_fetch_assoc($result)) {
+										echo '<option value="'.$row['id'].'">'.$row['code'].'-'.$row['section'].'-'.$row['initial'].
+										'-'.$row['semester'].'</option>';
+									}
+								 ?>
+							</select>
+						</div>
+					</div>
 
 					<div class="form-group">
 					    <label for="project_file" class="col-sm-2 control-label">Upload new files</label>

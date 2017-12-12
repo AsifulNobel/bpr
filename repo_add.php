@@ -1,3 +1,12 @@
+<?php
+	session_start();
+
+	require_once 'db/db_connect.php';
+
+	$sql = "SELECT c.ID as id, c.title as title, c.code as code, c.section as section, f.initial as initial, CONCAT(s.name, '-',s.year) as semester FROM course c INNER JOIN faculty f on c.faculty_id=f.ID INNER JOIN semester s on c.semester_id=s.ID";
+	$result = mysqli_query($connection, $sql);
+ ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -42,14 +51,33 @@
 					<div class="form-group">
 	                    <label class="control-label col-sm-2">Project Privacy</label>
 	                    <div class="btn-group col-sm-4" data-toggle="buttons">
-                            <label class="btn btn-primary active">
-								<input type="radio" id="project_privacy" name="project_privacy" value="1" checked>Public
-							</label>
-							<label class="btn btn-primary">
-								<input type="radio" id="project_privacy" name="project_privacy" value="0">Private
-							</label>
+							<div class="radio">
+	                            <label>
+									<input type="radio" id="project_privacy" name="project_privacy" value="1" checked>Public
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" id="project_privacy" name="project_privacy" value="0">Private
+								</label>
+							</div>
 	                    </div>
 	                </div>
+
+					<div class="form-group">
+						<label for="course" class="col-sm-2 control-label">Course</label>
+						<div class="col-sm-4">
+							<select class="form-control" id="course" name="course">
+								<option disabled selected> -- select an option -- </option>
+								<?php
+									while ($row = mysqli_fetch_assoc($result)) {
+										echo '<option value="'.$row['id'].'">'.$row['code'].'-'.$row['section'].'-'.$row['initial'].
+										'-'.$row['semester'].'</option>';
+									}
+								 ?>
+							</select>
+						</div>
+					</div>
 
 					<div class="form-group">
 						<div class="col-md-offset-2 col-md-6">

@@ -14,6 +14,10 @@
 		$delete_list = $_POST['file_delete'];
 	}
 
+	if (isset($_POST['course'])) {
+		$course = $_POST['course'];
+	}
+
 	$targetdir = '../repositories/'.$user_id.'/';
 
 	if (!file_exists($targetdir)) {
@@ -63,6 +67,12 @@
 			$sql = "DELETE FROM project_files WHERE id='$file_id'";
 			$result = mysqli_query($connection, $sql);
 		}
+	}
+
+	if (isset($course)) {
+		$sql = "UPDATE project SET course_id = '$course' WHERE project_id='$project_id'";
+
+		$result = mysqli_query($connection, $sql);
 	}
 
 	if ($result) {
