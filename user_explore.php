@@ -16,14 +16,23 @@
 					<input class="form-control" type="text" id="name" name="name" placeholder="Search Repository">
 					<input class="form-control" type="submit" id="search" name="submit" value="Search">
 				</div>
-				<div class="btn-group" data-toggle="buttons" style="padding: 10px 1px;">
-				  <label class="btn btn-primary active" style="padding:2px 5px;">
+				<!-- <div class="btn-group" data-toggle="buttons" style="padding: 10px 1px;">
+				  <label class="" style="padding:2px 5px;">
 				    <input type="radio" name="options" id="option1" value="repo" checked=""> By Repo Name
 				  </label>
-				  <label class="btn btn-primary" style="padding:2px 5px;">
+				  <label class="" style="padding:2px 5px;">
 				    <input type="radio" name="options" id="option2" value="user"> By User
 				  </label>
-				</div>
+				  <label class="" style="padding:2px 5px;">
+				    <input type="radio" name="options" id="option2" value="semester"> By Semester
+				  </label>
+				  <label class="" style="padding:2px 5px;">
+				    <input type="radio" name="options" id="option2" value="course"> By Course
+				  </label>
+				  <label class="" style="padding:2px 5px;">
+				    <input type="radio" name="options" id="option2" value="faculty"> By Faculty
+				  </label>
+				</div> -->
 			</form>
 
 			<div id="user-table">
@@ -40,10 +49,10 @@
 			e.preventDefault();
 
 			var query = $('#name').val();
-			var option = $('input[name=options]:checked', '#search-form').val();
+			// var option = $('input[name=options]:checked', '#search-form').val();
 
 			if (query.length > 0) {
-				$.post("backend/explore.php", {query: query, option: option},
+				$.post("backend/explore.php", {query: query},
 					function(result) {
 						console.log(result);
 						$("#user-table").html(result);

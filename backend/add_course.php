@@ -27,8 +27,16 @@
 
     $sql = "SELECT * FROM faculty WHERE initial LIKE '%$initial%'";
     $result = mysqli_query($connection, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $faculty_id = $row['ID'];
+
+	if (mysqli_num_rows($result) != 0) {
+		$row = mysqli_fetch_assoc($result);
+	    $faculty_id = $row['ID'];
+	}
+	else {
+		$sql = "INSERT INTO faculty (initial) VALUES ('$initial')";
+	    $result = mysqli_query($connection, $sql);
+		$faculty_id = mysqli_insert_id($connection);
+	}
 
     $sql = "INSERT INTO course (title, code, section, faculty_id, semester_id) VALUES ('$title', '$code', '$section', '$faculty_id', '$semester_id')";
     $result = mysqli_query($connection, $sql);

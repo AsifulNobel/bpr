@@ -122,7 +122,6 @@
         $(document).ready(function(){
             $.get('backend/get_course.php', function(result) {
                 $('#course-table').html(result);
-                console.log(result);
             });
         })
     </script>
